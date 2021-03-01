@@ -24,37 +24,28 @@ then
    exit 1
 fi
 
-# Shouldn't need this, but the RPM seems to be broken (20160315)
-if [[ ! -f ${CHGRUBDEF} ]]
+(
+printf "GRUB_TIMEOUT=1\n"
+# shellcheck disable=2059
+printf "GRUB_DISTRIBUTOR=\"$(sed 's, release .*$,,g' /etc/system-release)\"\n"
+printf "GRUB_DEFAULT=saved\n"
+printf "GRUB_DISABLE_SUBMENU=true\n"
+printf "GRUB_DISABLE_LINUX_UUID=true\n"
+printf "GRUB_DISABLE_RECOVERY=\"true\"\n"
+printf "GRUB_TERMINAL_OUTPUT=\"console\"\n"
+# Set GRUB2 vconsole output behavior
+printf "GRUB_CMDLINE_LINUX=\"crashkernel=auto vconsole.keymap=us "
+printf "vconsole.font=latarcyrheb-sun16 console=tty0 "
+printf "console=ttyS0,115200n8 "
+# Disable systemd's predictable network interface naming behavior
+printf "net.ifnames=0 "
+printf "boot=LABEL=/boot\"\n"
+) > "${CHGRUBDEF}"
+
+if [[ $? -ne 0 ]]
 then
-   printf "The grub2-tools RPM (vers. "
-   # shellcheck disable=SC2059
-   printf "$(rpm -q grub2-tools --qf '%{version}-%{release}\n')) "
-   printf "was faulty. Manufacturing a %s.\n" "${CHGRUBDEF}"
-
-   (
-    printf "GRUB_TIMEOUT=1\n"
-    # shellcheck disable=2059
-    printf "GRUB_DISTRIBUTOR=\"$(sed 's, release .*$,,g' /etc/system-release)\"\n"
-    printf "GRUB_DEFAULT=saved\n"
-    printf "GRUB_DISABLE_SUBMENU=true\n"
-    printf "GRUB_DISABLE_LINUX_UUID=true\n"
-    printf "GRUB_DISABLE_RECOVERY=\"true\"\n"
-    printf "GRUB_TERMINAL_OUTPUT=\"console\"\n"
-    # Set GRUB2 vconsole output behavior
-    printf "GRUB_CMDLINE_LINUX=\"crashkernel=auto vconsole.keymap=us "
-    printf "vconsole.font=latarcyrheb-sun16 console=tty0 "
-    printf "console=ttyS0,115200n8 "
-    # Disable systemd's predictable network interface naming behavior
-    printf "net.ifnames=0 "
-    printf "boot=LABEL=/boot\"\n"
-   ) > "${CHGRUBDEF}"
-
-   if [[ $? -ne 0 ]]
-   then
-      echo "Failed..." >> /dev/stderr
-      exit 1
-   fi
+  echo "Failed..." >> /dev/stderr
+  exit 1
 fi
 
 # Create and install a GRUB2 config file (etc.)
