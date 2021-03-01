@@ -26,7 +26,6 @@ Optionally, run:
 ~~~
 If setting the root user's password is desired. This will typically be used in non-cloud environments (e.g., VMware vSphers)
 ~~~
-      ./PreRelabel.sh	 ; \
       ./Umount.sh
 ~~~
 

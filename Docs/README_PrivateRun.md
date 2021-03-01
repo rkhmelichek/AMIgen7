@@ -26,7 +26,6 @@ Optionally, run:
 ~~~
 If setting the root user's password is desired. This will typically be used in non-cloud environments (e.g., VMware vSphere)
 ~~~
-      ./PreRelabel.sh	 ; \
       ./Umount.sh
 ~~~
 
@@ -35,7 +34,7 @@ In the above:
     - `<REPO_FILE_PATH>` is the path to an RPM containing private yum repo-definitions
     - `<REPOS_TO_ACTIVATE>` are the repos to activate from the private yum repo-definition. Typical yum globbing rules apply
 - AWScliSetup.sh:
-  - `<CLI_URI_ROOT>` gives the URI-path to the awscli-bundle.zip file (exclusive of the "awscli-bundle.zip" element) 
+  - `<CLI_URI_ROOT>` gives the URI-path to the awscli-bundle.zip file (exclusive of the "awscli-bundle.zip" element)
   - `<EPEL_FILE_PATH>` is the filesystem location for the RPM containing the private EPEL repository definition
 
 Once the above sequence exits successfully, an AMI may be created from the target-disk (/dev/xvdf in the example above):
