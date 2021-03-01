@@ -1,2 +1,4 @@
+.idea/
+
 yum-chroot.conf
 *.rpm
