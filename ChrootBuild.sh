@@ -39,7 +39,6 @@ esac
 
 DEFAULTREPOS=$(printf ",%s" "${OSREPOS[@]}" | sed 's/^,//')
 EXPANDED=()
-FIPSDISABLE="${FIPSDISABLE:-UNDEF}"
 MANIFESTFILE=""
 PKGLIST=()
 RPMGRP="core"
@@ -245,16 +244,6 @@ fi
 chroot "$CHROOT" "${YCM}" --disable "*"
 chroot "$CHROOT" "${YCM}" --enable "${BONUSREPO}"
 
-# Whether to include FIPS kernel modules...
-case "${FIPSDISABLE}" in
-   true|TRUE|1|on)
-      FIPSRPM=''
-      ;;
-   UNDEF|''|false|FALSE|0)
-      FIPSRPM='dracut-fips'
-      ;;
-esac
-
 # Setup the "include" package list
 
 # Use manifest file if found and non-empty
@@ -356,10 +345,6 @@ INCLUDE_PKGS+=(
     wget
     yum-utils
 )
-if [[ -n "$FIPSRPM" ]];
-then
-    INCLUDE_PKGS+=("$FIPSRPM")
-fi
 
 # Setup the "exclude" package list
 EXCLUDE_PKGS=(

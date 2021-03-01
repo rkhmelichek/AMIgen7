@@ -1,10 +1,9 @@
-# Verification 
+# Verification
 
 _Note_: This document describes steps for manually validating AMIs produced with AMIgen. Automated procuedures - supplemented with CloudFormation templates and other AWS components - are described in the [Automated Validation document](README_automated_validation.md).
 
 After creating an AMI, it is recommended to launch an instance from the AMI and perform some configuration-verification tasks before publishing the AMI. The AMIgen-created AMIs are notable for supporting:
 - Use of LVM for managing root (OS) filesystems (to meet STIG and related security guidelines' requirements).
-- Enablement of FIPS 140-2 security mode for the whole OS from intial-boot onward (to meet STIG and related security guidelines' requirements).
 - Enablement of SELinux in "Enforcing" security mode from intial-boot onward (to meet STIG and related security guidelines' requirements).
 - Enablement of auditing subsystem from intial-boot onward (to meet STIG and related security guidelines' requirements).
 - Dynamic resizing of root EBS: allows increasing from 20GiB default, only (e.g., to support remote graphical Linux desktop deployments)
@@ -12,7 +11,7 @@ After creating an AMI, it is recommended to launch an instance from the AMI and 
 - Inclusion of cloud-init for boot-time automated provisioning tasks
 - Inclusion of AWS utilities (the AWS CLI, the CloudFormation bootstrapper, etc.)
 - Binding to RPM update repositories to support lifecycle patching/sustainment activities (RHEL AMIs link to RHUI; CentOS binds to the CentOS.Org mirros; either may be configured to use private repos as needed).
-It is recommended to verify that all of these features are working as expected in instances launched from newly-generated AMIs. 
+It is recommended to verify that all of these features are working as expected in instances launched from newly-generated AMIs.
 
 ## Verification-Instance Setup
 To set up a in instance with an adequate test-configuration, launch an m4.large instance (t2 instance types can be used, but it will not be possible to verify proper 10Gbps support) with the root EBS increased by 10GiB and UserData defined similar to the following:
@@ -108,7 +107,6 @@ After the test instance completes its boot-sequence, login to the intance. You c
 1. Use the `vgdisplay -s` command to verify that the added storage shows up in the root LVM2 volume-group.
 1. Check the contents of the `/home` directory to ensure that the requested user accounts were all created
 1. Use `yum repolist` - or other equivalent yum invocation - to verify that the instance is able to talk to its RPM sources.
-1. Use `sysctl crypto.fips_enabled` to verify that the instance is actually running in FIPS mode.
 1. Use the `getenforce` command to verify that the instance is running in "`Enforcing`" mode.
 
 ![instancecheck](https://cloud.githubusercontent.com/assets/7087031/21658997/c4ffa102-d296-11e6-800a-660f0cd02d1e.png)

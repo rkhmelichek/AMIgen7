@@ -97,7 +97,7 @@ If all goes well, the `aws cloudformtation` command will result in an output mes
 
     The new stack should show up in either a `CREATE_IN_PROCESS` or `CREATE_COMPLETE` stage.
 
-    Note: If the page renders and your stack does not appear, hit the page-refresh button. 
+    Note: If the page renders and your stack does not appear, hit the page-refresh button.
 
 1. Click on the stack-name if you want to see the details of the stack-creation process:
 
@@ -164,14 +164,14 @@ updates/7/x86_64              CentOS-7 - Updates                  enabled: 1,107
 updates-source/7              CentOS-7 - Updates Sources          disabled
 repolist: 10,781
 ==========
-Active swap device(s): 
+Active swap device(s):
    /dev/dm-1
 ==========
 Mounted partition for /boot was found
 ==========
 /tmp is mounted from tmpfs
 ==========
-Check booted kernel: 
+Check booted kernel:
    Name        : kernel
    Version     : 3.10.0
    Release     : 514.10.2.el7
@@ -196,8 +196,6 @@ Check booted kernel:
    input and output, etc.
 ==========
 Check SELinux mode: Enforcing
-==========
-Check FIPS mode: Enabled
 ==========
 Check Xen root-dev mapping: enabled
 ```
