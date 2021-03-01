@@ -1,3 +1,24 @@
+git clone https://github.com/rkhmelichek/AMIgen7.git
+
+./DiskSetup.sh -b /boot -v VolGroup00 -f xfs -d /dev/nvme1n1 ; \
+./MkChrootTree.sh /dev/nvme1n1 xfs ; \
+./MkTabs.sh /dev/nvme1n1 ; \
+./ChrootBuild.sh ; \
+./AWScliSetup.sh ; \
+./ChrootCfg.sh ; \
+./GrubSetup.sh /dev/nvme1n1 ; \
+./NetSet.sh ; \
+./CleanChroot.sh ; \
+
+./SetRootPW.sh xxx
+./PreRelabel.sh
+./Umount.sh
+
+aws --region us-east-1 ec2 register-image --virtualization-type hvm --architecture x86_64 \
+  --ena-support --sriov-net-support simple --root-device-name /dev/xvda --block-device-mappings \
+  '[{"DeviceName": "/dev/xvda","Ebs": {"DeleteOnTermination": true,"SnapshotId": "snap-06d2347e3e3d638c4","VolumeSize": 20,"VolumeType": "gp2"}}]' \
+  --name "centos7_lvm"
+
 # Introduction
 The scripts in this project are designed to ease the creation of LVM-enabled Enterprise Linux AMIs for use in AWS envrionments. It has been successfully tested with CentOS 7.x, Scientific Linux 7.x and Red Hat Enterprise Linux 7.x. It should work with other EL7-derived operating systems.
 
