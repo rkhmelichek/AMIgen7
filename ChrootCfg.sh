@@ -8,7 +8,6 @@
 #   the directory from which the script is exec'ed
 # * Enable ntpd client-service - if server is defined in
 #   ntp.conf
-# * Ensure that selinux policy-definitions are in place
 # * Process a secondary localization script if the
 #   secondary-script the environmental-variable
 #   (${LOCALSCRIPT}) is set and points to a valid
@@ -47,7 +46,7 @@ then
    # Only enable NTPD if a "server" line is found
    if [[ $(grep -q "^server" "${NTPCONF}")$? -eq 0 ]]
    then
-      chroot "${CHROOT}" /bin/sh -c "/sbin/chkconfig ntpd on" 
+      chroot "${CHROOT}" /bin/sh -c "/sbin/chkconfig ntpd on"
    else
       printf "%s does not exist or does not " "${NTPCONF}" > /dev/stderr
       printf "have a \"server\" defined.\n" > /dev/stderr
@@ -56,14 +55,8 @@ then
 fi
 
 # Ensure that tmp.mount Service is enabled
-chroot "${CHROOT}" /bin/systemctl unmask tmp.mount 
-chroot "${CHROOT}" /bin/systemctl enable tmp.mount 
-
-# Ensure that SELinux policy files are installed
-chroot "${CHROOT}" /bin/sh -c "(rpm -q --scripts selinux-policy-targeted | \
-   sed -e '1,/^postinstall scriptlet/d' | \
-   sed -e '1i #!/bin/sh') > /tmp/selinuxconfig.sh ; \
-   sh /tmp/selinuxconfig.sh 1"
+chroot "${CHROOT}" /bin/systemctl unmask tmp.mount
+chroot "${CHROOT}" /bin/systemctl enable tmp.mount
 
 # Ensure that firewalld will work in drop mode...
 printf "Adding firewalld rules... "

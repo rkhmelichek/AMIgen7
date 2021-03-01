@@ -338,7 +338,6 @@ INCLUDE_PKGS+=(
     rdma-core
     rootfiles
     rsync
-    selinux-policy-targeted
     sudo
     tar
     vim-common

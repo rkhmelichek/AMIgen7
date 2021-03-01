@@ -195,7 +195,5 @@ Check booted kernel:
    of the operating system: memory allocation, process allocation, device
    input and output, etc.
 ==========
-Check SELinux mode: Enforcing
-==========
 Check Xen root-dev mapping: enabled
 ```

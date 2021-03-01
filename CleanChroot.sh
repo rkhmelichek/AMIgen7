@@ -62,7 +62,6 @@ system_info:\
     groups: [wheel, adm]\
     sudo: ["ALL=(root) NOPASSWD:ALL"]\
     shell: /bin/bash\
-    selinux_user: unconfined_u\
   distro: rhel\
   paths:\
     cloud_dir: /var/lib/cloud\

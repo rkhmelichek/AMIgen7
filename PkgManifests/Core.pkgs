@@ -42,7 +42,6 @@ procps-ng
 rootfiles
 rpm
 rsyslog
-selinux-policy-targeted
 setup
 sg3_utils
 sg3_utils-libs

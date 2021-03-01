@@ -10,7 +10,7 @@ git clone https://github.com/rkhmelichek/AMIgen7.git
 ./NetSet.sh
 ./CleanChroot.sh
 #./SetRootPW.sh xxx
-./PreRelabel.sh
+#./PreRelabel.sh
 ./Umount.sh
 
 aws --region us-east-1 ec2 register-image --virtualization-type hvm --architecture x86_64 \

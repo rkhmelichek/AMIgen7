@@ -4,7 +4,6 @@ _Note_: This document describes steps for manually validating AMIs produced with
 
 After creating an AMI, it is recommended to launch an instance from the AMI and perform some configuration-verification tasks before publishing the AMI. The AMIgen-created AMIs are notable for supporting:
 - Use of LVM for managing root (OS) filesystems (to meet STIG and related security guidelines' requirements).
-- Enablement of SELinux in "Enforcing" security mode from intial-boot onward (to meet STIG and related security guidelines' requirements).
 - Enablement of auditing subsystem from intial-boot onward (to meet STIG and related security guidelines' requirements).
 - Dynamic resizing of root EBS: allows increasing from 20GiB default, only (e.g., to support remote graphical Linux desktop deployments)
 - Supporting 10Gbps mode in m4-generation instance-types (inclusive of C3, C4, D2, I2, R3 and newer instance-types).
@@ -26,14 +25,12 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     groups: wheel
     lock-passwd: True
-    selinux-user: unconfined_u
   - name: <DESIRED_LOGIN_USERID_2>
     ssh-authorized-keys:
       - <OPEN_SSH_FORMATTED_KEYSTRING>
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     groups: wheel
     lock-passwd: True
-    selinux-user: unconfined_u
 write_files:
   - content: |-
       pvresize /dev/xvda2
@@ -61,7 +58,6 @@ As prototyped, this section causes three users to be created within the instance
 - `ssh-authorized-keys`: Installs the public key into the custom user's `${HOME}/.ssh/authorized_keys` file (allows passwordless, key-based SSH logins to the custom user's account using the private key associated with the installed public key.
 - `groups`: Adds the custom user to the specified group
 - `lock-passwd`: Locks the password of the custom user. This disables the ability to login via password - preventing brute-force attacks.
-- `selinux-user`: Sets the custom user's target SELinux role.
 - `sudo`: Sets the custom user's rights within the `sudo` subsystem. Because the initial users are being configured with locked passwords, it is necessary to configure sudo to allow the defined users to escallate privileges without supplying a password.
 
 ### `write_files` Section:
