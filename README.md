@@ -1,16 +1,15 @@
 git clone https://github.com/rkhmelichek/AMIgen7.git
 
-./DiskSetup.sh -b /boot -v VolGroup00 -f xfs -d /dev/nvme1n1 ; \
-./MkChrootTree.sh /dev/nvme1n1 xfs ; \
-./MkTabs.sh /dev/nvme1n1 ; \
-./ChrootBuild.sh ; \
-./AWScliSetup.sh ; \
-./ChrootCfg.sh ; \
-./GrubSetup.sh /dev/nvme1n1 ; \
-./NetSet.sh ; \
-./CleanChroot.sh ; \
-
-./SetRootPW.sh xxx
+./DiskSetup.sh -b /boot -v VolGroup00 -f xfs -d /dev/nvme1n1
+./MkChrootTree.sh /dev/nvme1n1 xfs
+./MkTabs.sh /dev/nvme1n1
+./ChrootBuild.sh
+./AWScliSetup.sh
+./ChrootCfg.sh
+./GrubSetup.sh /dev/nvme1n1
+./NetSet.sh
+./CleanChroot.sh
+#./SetRootPW.sh xxx
 ./PreRelabel.sh
 ./Umount.sh
 
