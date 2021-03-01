@@ -3,7 +3,6 @@
 # Script to enable networking in the EL7 AMI:
 # * Enable DHCP client for default interface (eth0)
 # * Configure basic networking-behavior
-# * Configure basic SSHD behavior
 #
 #################################################################
 CHROOT="${CHROOT:-/mnt/ec2-root}"
@@ -26,12 +25,6 @@ NETWORKING="yes"
 NETWORKING_IPV6="no"
 NOZEROCONF="yes"
 HOSTNAME="localhost.localdomain"
-EOF
-
-# Make ssh relax about root logins
-cat <<EOF >> "${CHROOT}/etc/ssh/sshd_config"
-UseDNS no
-PermitRootLogin without-password
 EOF
 
 chroot "${CHROOT}" systemctl enable network
